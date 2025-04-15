@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +34,7 @@ public class StudentControllerTest {
     @Mock
     private StudentRepository studentRepository;
     
-    @Autowired
+
     private MockMvc mockMvc;
     
     @InjectMocks
@@ -43,6 +44,7 @@ public class StudentControllerTest {
 
     @BeforeEach
     void setup() {
+    	mockMvc = MockMvcBuilders.standaloneSetup(studentController).build();
         student = new Student();
         student.setId(UUID.randomUUID());
         student.setName("John Doe");
