@@ -1,13 +1,17 @@
 package com.studentDetails.StudentApplication;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -69,6 +73,25 @@ public class Student {
 	public void setAdmissionDate(LocalDate admissionDate) {
 		this.admissionDate = admissionDate;
 	}
+	@Transient
+    @JsonProperty("grade")
+    public String getGrade() {
+        if (marksObtained > 40) {
+            LocalDate now = LocalDate.now();
+            Period period = Period.between(admissionDate, now);
+            int months = period.getYears() * 12 + period.getMonths();
+
+            if (marksObtained >= 90 && months <= 6) {
+                return "Platinum";
+            } else if (marksObtained >= 80 && marksObtained < 90 && months <= 6) {
+                return "Merit";
+            } else {
+                return "Pass";
+            }
+        } else {
+            return "Fail";
+        }
+    }
 
     
 }
