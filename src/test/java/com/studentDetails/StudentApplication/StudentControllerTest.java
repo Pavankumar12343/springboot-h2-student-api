@@ -12,6 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -27,7 +29,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class StudentControllerTest {
-
+	private static final Logger logger = LoggerFactory.getLogger(StudentControllerTest.class);
     @Mock
     private StudentService studentService;
     
@@ -55,6 +57,7 @@ public class StudentControllerTest {
     
     @Test
     public void testCreateStudent() {
+    	logger.info("StudentControllerTest::testCreateStudent method");
         when(studentService.createStudent(any(Student.class))).thenReturn(student);
 
         ResponseEntity<Student> response = studentController.createStudent(student);
@@ -65,6 +68,7 @@ public class StudentControllerTest {
 
     @Test
     public void testGetStudent() {
+    	logger.info("StudentControllerTest::testGetStudent method");
         UUID id = student.getId();
         when(studentService.getStudentById(id)).thenReturn(Optional.of(student));
 
@@ -75,6 +79,7 @@ public class StudentControllerTest {
     }
     @Test
     public void testGradeCalculation_Merit() throws Exception {
+    	logger.info("StudentControllerTest::testGradeCalculation_Merit method");
         Student student = new Student();
         student.setName("Jane");
         student.setEmail("jane@example.com");
@@ -89,6 +94,7 @@ public class StudentControllerTest {
 
     @Test
     public void testGradeCalculation_Platinum() throws Exception {
+    	logger.info("StudentControllerTest::testGradeCalculation_Platinum method");
         Student student = new Student();
         student.setName("Alex");
         student.setEmail("alex@example.com");
@@ -103,6 +109,7 @@ public class StudentControllerTest {
 
     @Test
     public void testGradeCalculation_Pass() throws Exception {
+    	logger.info("StudentControllerTest::testGradeCalculation_Pass method");
         Student student = new Student();
         student.setName("Ben");
         student.setEmail("ben@example.com");
@@ -117,6 +124,7 @@ public class StudentControllerTest {
 
     @Test
     public void testEmailValidation() throws Exception {
+    	logger.info("StudentControllerTest::testEmailValidation method");
         String studentJson = """
             {
                 "name": "Invalid Email",
@@ -134,6 +142,7 @@ public class StudentControllerTest {
 
     @Test
     public void testDeleteStudent() throws Exception {
+    	logger.info("StudentControllerTest::testDeleteStudent method");
         Student student = new Student();
         student.setName("ToDelete");
         student.setEmail("delete@example.com");

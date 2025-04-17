@@ -7,7 +7,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,7 +21,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class StudentServiceTest {
-
+	private static final Logger logger = LoggerFactory.getLogger(StudentServiceTest.class);
     @Mock
     private StudentRepository studentRepository;
 
@@ -41,6 +42,7 @@ public class StudentServiceTest {
 
     @Test
     public void testCreateStudent() {
+    	logger.info("StudentServiceTest::testCreateStudent method");
         when(studentRepository.save(any(Student.class))).thenReturn(student);
 
         Student savedStudent = studentService.createStudent(student);
@@ -52,6 +54,7 @@ public class StudentServiceTest {
 
     @Test
     public void testGetStudentById_whenFound() {
+    	logger.info("StudentServiceTest::testGetStudentById_whenFound method");
         UUID id = student.getId();
         when(studentRepository.findById(id)).thenReturn(Optional.of(student));
 
@@ -63,6 +66,7 @@ public class StudentServiceTest {
 
     @Test
     public void testGetStudentById_whenNotFound() {
+    	logger.info("StudentServiceTest::testGetStudentById_whenNotFound method");
         UUID id = UUID.randomUUID();
         when(studentRepository.findById(id)).thenReturn(null);
 
